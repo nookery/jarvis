@@ -6,7 +6,8 @@ RUN sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/ins
 
 RUN go env -w GO111MODULE=on \
     && go env -w GOPROXY=https://goproxy.cn,direct \
-    && go get -u github.com/spf13/cobra/cobra
+    && go get -u github.com/spf13/cobra/cobra \
+    && go get -v github.com/ramya-rao-a/go-outline
 
 ENV SHELL /bin/zsh
 
