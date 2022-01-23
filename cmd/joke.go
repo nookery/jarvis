@@ -1,7 +1,3 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
@@ -48,15 +44,7 @@ var jokeCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(jokeCmd)
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
 	jokeCmd.PersistentFlags().String("term", "", "要查询的关键字")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// randomCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 func getRandomJoke() {
@@ -65,7 +53,7 @@ func getRandomJoke() {
 	joke := Joke{}
 
 	if err := json.Unmarshal(responseBytes, &joke); err != nil {
-		fmt.Printf("Could not unmarshal reponseBytes. %v", err)
+		fmt.Printf("Could not unmarshal responseBytes. %v", err)
 	}
 
 	fmt.Println(string(joke.Joke))
@@ -73,7 +61,7 @@ func getRandomJoke() {
 
 func getRandomJokeWithTerm(jokeTerm string) {
 	total, results := getJokeDataWithTerm(jokeTerm)
-	randomiseJokeList(total, results)
+	randomizeJokeList(total, results)
 }
 
 func getJokeData(baseAPI string) []byte {
@@ -109,25 +97,25 @@ func getJokeDataWithTerm(jokeTerm string) (totalJokes int, jokeList []Joke) {
 	jokeListRaw := SearchResult{}
 
 	if err := json.Unmarshal(responseBytes, &jokeListRaw); err != nil {
-		log.Printf("Could not unmarshal reponseBytes. %v", err)
+		log.Printf("Could not unmarshal responseBytes. %v", err)
 	}
 
 	jokes := []Joke{}
 	if err := json.Unmarshal(jokeListRaw.Results, &jokes); err != nil {
-		log.Printf("Could not unmarshal reponseBytes. %v", err)
+		log.Printf("Could not unmarshal responseBytes. %v", err)
 	}
 
 	return jokeListRaw.TotalJokes, jokes
 }
 
-func randomiseJokeList(length int, jokeList []Joke) {
+func randomizeJokeList(length int, jokeList []Joke) {
 	rand.Seed(time.Now().Unix())
 
 	min := 0
 	max := length - 1
 
 	if length <= 0 {
-		err := fmt.Errorf("No jokes found with this term")
+		err := fmt.Errorf("no jokes found with this term")
 		fmt.Println(err.Error())
 	} else {
 		randomNum := min + rand.Intn(max-min)

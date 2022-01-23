@@ -1,7 +1,3 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package cmd
 
 import (
@@ -35,13 +31,18 @@ var create = &cobra.Command{
 			password = "root"
 		}
 
+		if name == "" {
+			color.Warnln("请输入要新建的数据库名称")
+			return
+		}
+
 		color.Infoln("地址：" + host)
 		color.Infoln("用户：" + username)
 		color.Infoln("密码：" + password)
 		color.Infoln("新建：" + name + "\r\n")
 
 		// 参考 https://github.com/go-sql-driver/mysql#dsn-data-source-name 获取详情
-		dsn := username + ":" + password + "@tcp(" + host + ":3306)/www_api4_top?charset=utf8mb4&parseTime=True&loc=Local"
+		dsn := username + ":" + password + "@tcp(" + host + ":3306)/?charset=utf8mb4&parseTime=True&loc=Local"
 		db, err := sql.Open("mysql", dsn)
 		if err != nil {
 			color.Infoln("连接数据库失败")
@@ -79,23 +80,28 @@ var show = &cobra.Command{
 		color.Infoln("密码是：" + password)
 
 		// 参考 https://github.com/go-sql-driver/mysql#dsn-data-source-name 获取详情
-		dsn := username + ":" + password + "@tcp(" + host + ":3306)?charset=utf8mb4&parseTime=True&loc=Local"
+		dsn := username + ":" + password + "@tcp(" + host + ":3306)/?charset=utf8mb4&parseTime=True&loc=Local"
 		db, err := sql.Open("mysql", dsn)
 		if err != nil {
-			color.Infoln("连接数据库失败")
+			color.Infoln("连接数据库失败", err)
 		} else {
-			color.Infoln("连接数据库成功")
-			res, err := db.Exec("SHOW DATABASES")
+			res, err := db.Query("SHOW DATABASES")
 			if err != nil {
 				color.Infoln("Error %s when creating DB\n", err)
 				return
 			}
-			no, err := res.RowsAffected()
-			if err != nil {
-				color.Infoln("Error %s when fetching rows", err)
-				return
+
+			defer res.Close()
+
+			color.Infoln("数据库列表：")
+			name := ""
+			for res.Next() {
+				err := res.Scan(&name)
+				if err != nil {
+					color.Errorf(err.Error())
+				}
+				color.Println("  " + name)
 			}
-			color.Infoln("rows affected %d\n", no)
 		}
 	},
 }
