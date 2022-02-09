@@ -1,4 +1,4 @@
-package bt
+package utils
 
 import (
 	"crypto/md5"
@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func patchSign(key string, data url.Values) url.Values {
+func PatchSign(key string, data url.Values) url.Values {
 	time := time.Now().Unix()
 	md5Key := fmt.Sprintf("%x", md5.Sum([]byte(key)))
 	data.Set("request_time", fmt.Sprint(time))

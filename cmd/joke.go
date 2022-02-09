@@ -42,8 +42,6 @@ var jokeCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(jokeCmd)
-
 	jokeCmd.PersistentFlags().String("term", "", "要查询的关键字")
 }
 

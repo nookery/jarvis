@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"jarvis/cmd/bt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -21,4 +22,12 @@ func Execute() {
 	if err != nil {
 		os.Exit(1)
 	}
+}
+
+func init() {
+	rootCmd.AddCommand(databaseCmd)
+	rootCmd.AddCommand(pingCmd)
+	rootCmd.AddCommand(jokeCmd)
+
+	rootCmd.AddCommand(bt.BtCmd)
 }

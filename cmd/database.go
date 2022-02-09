@@ -107,7 +107,6 @@ var show = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(databaseCmd)
 	databaseCmd.AddCommand(create)
 	databaseCmd.AddCommand(show)
 

@@ -15,7 +15,3 @@ var pingCmd = &cobra.Command{
 		fmt.Println("pang")
 	},
 }
-
-func init() {
-	rootCmd.AddCommand(pingCmd)
-}

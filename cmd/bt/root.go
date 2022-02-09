@@ -1,7 +1,7 @@
-package cmd
+package bt
 
 import (
-	"jarvis/cmd/bt"
+	"jarvis/cmd/bt/site"
 
 	"github.com/spf13/cobra"
 )
@@ -12,6 +12,5 @@ var BtCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(BtCmd)
-	BtCmd.AddCommand(bt.SiteCmd)
+	BtCmd.AddCommand(site.SiteCmd)
 }
