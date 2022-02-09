@@ -5,22 +5,27 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gookit/color"
-	"github.com/spf13/cobra"
+	"github.com/gookit/gcli/v3"
 )
 
-var databaseCmd = &cobra.Command{
-	Use:   "database",
-	Short: "数据库相关操作",
+var DatabaseCmd = &gcli.Command{
+	Name: "database",
+	Desc: "数据库相关操作",
 }
 
-var create = &cobra.Command{
-	Use:   "create",
-	Short: "新建数据库",
-	Run: func(cmd *cobra.Command, args []string) {
-		host, _ := cmd.Flags().GetString("host")
-		username, _ := cmd.Flags().GetString("username")
-		password, _ := cmd.Flags().GetString("password")
-		name, _ := cmd.Flags().GetString("name")
+var create = &gcli.Command{
+	Name: "create",
+	Desc: "新建数据库",
+	Func: func(cmd *gcli.Command, args []string) error {
+		cmd.AddArg("host", "host")
+		cmd.AddArg("username", "username")
+		cmd.AddArg("password", "password")
+		cmd.AddArg("name", "name")
+
+		host := cmd.Arg("host").String()
+		username := cmd.Arg("username").String()
+		password := cmd.Arg("password").String()
+		name := cmd.Arg("name").String()
 		if host == "" {
 			host = "127.0.0.1"
 		}
@@ -33,7 +38,7 @@ var create = &cobra.Command{
 
 		if name == "" {
 			color.Warnln("请输入要新建的数据库名称")
-			return
+			return nil
 		}
 
 		color.Infoln("地址：" + host)
@@ -50,21 +55,22 @@ var create = &cobra.Command{
 			_, err := db.Exec("CREATE DATABASE IF NOT EXISTS " + name)
 			if err != nil {
 				color.Errorf("Error %s when creating DB\n", err)
-				return
+				return nil
 			}
 			color.Infoln("成功")
 		}
+
+		return nil
 	},
 }
 
-var show = &cobra.Command{
-	Use:   "show",
-	Short: "展示数据库列表",
-	Long:  `展示数据库列表`,
-	Run: func(cmd *cobra.Command, args []string) {
-		host, _ := cmd.Flags().GetString("host")
-		username, _ := cmd.Flags().GetString("username")
-		password, _ := cmd.Flags().GetString("password")
+var show = &gcli.Command{
+	Name: "show",
+	Desc: "展示数据库列表",
+	Func: func(cmd *gcli.Command, args []string) error {
+		host := cmd.Arg("host").String()
+		username := cmd.Arg("username").String()
+		password := cmd.Arg("password").String()
 		if host == "" {
 			host = "127.0.0.1"
 		}
@@ -88,7 +94,7 @@ var show = &cobra.Command{
 			res, err := db.Query("SHOW DATABASES")
 			if err != nil {
 				color.Infoln("Error %s when creating DB\n", err)
-				return
+				return nil
 			}
 
 			defer res.Close()
@@ -103,16 +109,7 @@ var show = &cobra.Command{
 				color.Println("  " + name)
 			}
 		}
+
+		return nil
 	},
-}
-
-func init() {
-	databaseCmd.AddCommand(create)
-	databaseCmd.AddCommand(show)
-
-	databaseCmd.PersistentFlags().String("host", "", "数据库地址")
-	databaseCmd.PersistentFlags().String("username", "", "用户名")
-	databaseCmd.PersistentFlags().String("password", "", "密码")
-
-	create.Flags().String("name", "", "要新建的数据库名称")
 }
