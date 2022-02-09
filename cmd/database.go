@@ -11,6 +11,7 @@ import (
 var DatabaseCmd = &gcli.Command{
 	Name: "database",
 	Desc: "数据库相关操作",
+	Subs: []*gcli.Command{create, show},
 }
 
 var create = &gcli.Command{
