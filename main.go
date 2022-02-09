@@ -1,8 +1,10 @@
 package main
 
 import (
-	"github.com/gookit/gcli/v3"
 	"jarvis/cmd"
+	"jarvis/cmd/bt/database"
+
+	"github.com/gookit/gcli/v3"
 )
 
 func main() {
@@ -12,7 +14,7 @@ func main() {
 
 	app.Add(cmd.Ping)
 	app.Add(cmd.JokeCmd)
-	app.Add(cmd.DatabaseCmd)
+	app.Add(database.DatabaseCmd)
 
 	app.Run(nil)
 }
