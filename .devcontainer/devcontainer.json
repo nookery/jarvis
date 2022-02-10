@@ -20,6 +20,8 @@
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"golang.Go",
+		"wraith13.open-in-github-desktop",
+		"fabiospampinato.vscode-open-in-github",
 		"GitHub.copilot"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
