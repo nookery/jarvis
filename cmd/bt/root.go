@@ -10,7 +10,8 @@ import (
 
 var BtCmd = &cobra.Command{
 	Use:   "bt",
-	Short: "宝塔相关操作",
+	Long:  color.Success.Render("\r\n宝塔管理工具。"),
+	Short: color.Blue.Render("宝塔相关操作"),
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		host, _ := cmd.Flags().GetString("host")
 		key, _ := cmd.Flags().GetString("key")
@@ -32,6 +33,6 @@ var BtCmd = &cobra.Command{
 
 func init() {
 	BtCmd.AddCommand(site.SiteCmd)
-	BtCmd.PersistentFlags().String("host", "http://127.0.0.1", "宝塔地址")
-	BtCmd.PersistentFlags().StringP("key", "k", "", "宝塔密钥")
+	BtCmd.PersistentFlags().String("host", "http://127.0.0.1", color.Blue.Render("宝塔地址"))
+	BtCmd.PersistentFlags().StringP("key", "k", "", color.Blue.Render("宝塔密钥"))
 }

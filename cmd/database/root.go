@@ -7,8 +7,9 @@ import (
 )
 
 var DatabaseCmd = &cobra.Command{
-	Use:  "database",
-	Long: color.Success.Render("\r\n数据库相关操作"),
+	Use:   "database",
+	Short: color.Blue.Render("数据库相关操作"),
+	Long:  color.Success.Render("\r\n数据库相关操作"),
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		host, _ := cmd.Flags().GetString("host")
 		username, _ := cmd.Flags().GetString("username")

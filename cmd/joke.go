@@ -3,12 +3,14 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/spf13/cobra"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"time"
+
+	"github.com/gookit/color"
+	"github.com/spf13/cobra"
 )
 
 type Joke struct {
@@ -27,8 +29,8 @@ type SearchResult struct {
 // jokeCmd represents the joke command
 var jokeCmd = &cobra.Command{
 	Use:   "joke",
-	Short: "输出一条笑话",
-	Long:  `输出一条笑话`,
+	Short: color.Blue.Render("输出一条笑话"),
+	Long:  color.Success.Render("\r\n输出一条笑话"),
 	Run: func(cmd *cobra.Command, args []string) {
 		jokeTerm, _ := cmd.Flags().GetString("term")
 
@@ -41,7 +43,7 @@ var jokeCmd = &cobra.Command{
 }
 
 func init() {
-	jokeCmd.PersistentFlags().String("term", "", "要查询的关键字")
+	jokeCmd.PersistentFlags().String("term", "", color.Blue.Render("要查询的关键字"))
 }
 
 func getRandomJoke() {
