@@ -5,16 +5,15 @@ import (
 	"net/url"
 
 	"github.com/gookit/color"
-	"github.com/spf13/cobra"
+	"github.com/gookit/gcli/v3"
 )
 
-var types = &cobra.Command{
-	Use:   "types",
-	Short: "展示网站分类",
-	Long:  `展示网站分类`,
-	Run: func(cmd *cobra.Command, args []string) {
-		host, _ := cmd.Flags().GetString("host")
-		key, _ := cmd.Flags().GetString("key")
+var types = &gcli.Command{
+	Name: "types",
+	Desc: "展示网站分类",
+	Func: func(cmd *gcli.Command, args []string) error {
+		host := cmd.Arg("host").String()
+		key := cmd.Arg("key").String()
 		link := host + "/site?action=get_site_types"
 
 		color.Infoln("地址：" + host)
@@ -22,5 +21,7 @@ var types = &cobra.Command{
 
 		result := utils.Post(link, utils.PatchSign(key, url.Values{}))
 		color.Infoln(result)
+
+		return nil
 	},
 }

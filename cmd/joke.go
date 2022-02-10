@@ -28,8 +28,10 @@ type SearchResult struct {
 var JokeCmd = &gcli.Command{
 	Name: "joke",
 	Desc: "输出一条笑话",
-	Func: func(cmd *gcli.Command, args []string) error {
+	Config: func(cmd *gcli.Command) {
 		cmd.AddArg("term", "要查询的关键字", false)
+	},
+	Func: func(cmd *gcli.Command, args []string) error {
 		term := cmd.Arg("term").String()
 
 		if term != "" {

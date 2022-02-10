@@ -1,19 +1,21 @@
 package site
 
 import (
-	"net/url"
-
 	"github.com/gookit/color"
-	"github.com/spf13/cobra"
+	"github.com/gookit/gcli/v3"
 	"jarvis/cmd/bt/utils"
+	"net/url"
 )
 
-var delete = &cobra.Command{
-	Use:   "delete",
-	Short: "删除网站",
-	Run: func(cmd *cobra.Command, args []string) {
-		host, _ := cmd.Flags().GetString("host")
-		key, _ := cmd.Flags().GetString("key")
+var delete = &gcli.Command{
+	Name: "delete",
+	Desc: "删除网站",
+	Config: func(cmd *gcli.Command) {
+		cmd.AddArg("id", "Id")
+	},
+	Func: func(cmd *gcli.Command, args []string) error {
+		host := cmd.Arg("host").String()
+		key := cmd.Arg("key").String()
 		link := host + "/site?action=DeleteSite"
 
 		color.Infoln("地址：" + host)
@@ -24,6 +26,7 @@ var delete = &cobra.Command{
 			"id":      {"10"},
 		}))
 		color.Infoln(result)
+
+		return nil
 	},
-	Args: nil,
 }
