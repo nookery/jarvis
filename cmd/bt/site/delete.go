@@ -1,32 +1,27 @@
 package site
 
 import (
-	"github.com/gookit/color"
-	"github.com/gookit/gcli/v3"
-	"jarvis/cmd/bt/utils"
 	"net/url"
+
+	"github.com/gookit/color"
+	"github.com/spf13/cobra"
+	"jarvis/cmd/bt/utils"
 )
 
-var delete = &gcli.Command{
-	Name: "delete",
-	Desc: "删除网站",
-	Config: func(cmd *gcli.Command) {
-		cmd.AddArg("id", "Id")
-	},
-	Func: func(cmd *gcli.Command, args []string) error {
-		host := cmd.Arg("host").String()
-		key := cmd.Arg("key").String()
+var delete = &cobra.Command{
+	Use:   "delete",
+	Short: "删除网站",
+	Long:  color.Success.Render("删除网站"),
+	Run: func(cmd *cobra.Command, args []string) {
+		host, _ := cmd.Flags().GetString("host")
+		key, _ := cmd.Flags().GetString("key")
 		link := host + "/site?action=DeleteSite"
-
-		color.Infoln("地址：" + host)
-		color.Infoln("密钥：" + key)
 
 		result := utils.Post(link, utils.PatchSign(key, url.Values{
 			"webname": {"test.api4.top"},
 			"id":      {"10"},
 		}))
 		color.Infoln(result)
-
-		return nil
 	},
+	Args: nil,
 }

@@ -3,13 +3,12 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/spf13/cobra"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
 	"time"
-
-	"github.com/gookit/gcli/v3"
 )
 
 type Joke struct {
@@ -25,23 +24,24 @@ type SearchResult struct {
 	TotalJokes int             `json:"total_jokes"`
 }
 
-var JokeCmd = &gcli.Command{
-	Name: "joke",
-	Desc: "输出一条笑话",
-	Config: func(cmd *gcli.Command) {
-		cmd.AddArg("term", "要查询的关键字", false)
-	},
-	Func: func(cmd *gcli.Command, args []string) error {
-		term := cmd.Arg("term").String()
+// jokeCmd represents the joke command
+var jokeCmd = &cobra.Command{
+	Use:   "joke",
+	Short: "输出一条笑话",
+	Long:  `输出一条笑话`,
+	Run: func(cmd *cobra.Command, args []string) {
+		jokeTerm, _ := cmd.Flags().GetString("term")
 
-		if term != "" {
-			getRandomJokeWithTerm(term)
+		if jokeTerm != "" {
+			getRandomJokeWithTerm(jokeTerm)
 		} else {
 			getRandomJoke()
 		}
-
-		return nil
 	},
+}
+
+func init() {
+	jokeCmd.PersistentFlags().String("term", "", "要查询的关键字")
 }
 
 func getRandomJoke() {

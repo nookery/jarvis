@@ -3,10 +3,11 @@ package site
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gookit/color"
-	"github.com/gookit/gcli/v3"
-	"jarvis/cmd/bt/utils"
 	"net/url"
+
+	"github.com/gookit/color"
+	"github.com/spf13/cobra"
+	"jarvis/cmd/bt/utils"
 )
 
 type Webname struct {
@@ -15,22 +16,14 @@ type Webname struct {
 	Count      int    `json:"count"`
 }
 
-var create = &gcli.Command{
-	Name: "create",
-	Desc: "创建网站",
-	Config: func(cmd *gcli.Command) {
-		cmd.AddArg("key", "", true)
-		cmd.AddArg("host", "宝塔地址", false)
-		cmd.AddArg("domain", "网站域名")
-	},
-	Func: func(cmd *gcli.Command, args []string) error {
-		host := cmd.Arg("host").String()
-		key := cmd.Arg("key").String()
-		domain := cmd.Arg("domain").String()
+var Create = &cobra.Command{
+	Use:   "create",
+	Short: "创建网站",
+	Run: func(cmd *cobra.Command, args []string) {
+		host, _ := cmd.Flags().GetString("host")
+		key, _ := cmd.Flags().GetString("key")
+		domain, _ := cmd.Flags().GetString("domain")
 		link := host + "/site?action=AddSite"
-
-		color.Infoln("地址：" + host)
-		color.Infoln("密钥：" + key)
 
 		webname, err := json.Marshal(Webname{
 			Domain:     domain,
@@ -53,7 +46,10 @@ var create = &gcli.Command{
 			"sql":     {"false"},
 		}))
 		color.Infoln(result)
-
-		return nil
 	},
+}
+
+func init() {
+	Create.Flags().String("domain", "", "要新建的网站的域名")
+	Create.MarkFlagRequired("domain")
 }
