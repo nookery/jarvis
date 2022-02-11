@@ -16,6 +16,7 @@ var Conf = &cobra.Command{
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		name, _ := cmd.Flags().GetString("name")
 		file, _ := cmd.Flags().GetString("file")
+		content, _ := cmd.Flags().GetString("content")
 
 		color.Infoln("名称：" + name + "\r\n")
 		color.Infoln("文件：" + file + "\r\n")
@@ -24,8 +25,8 @@ var Conf = &cobra.Command{
 			return errors.New(color.Red.Renderln("请输入网站名称") + "\r\n")
 		}
 
-		if file == "" {
-			return errors.New(color.Red.Renderln("请输入配置文件的路径") + "\r\n")
+		if file == "" && content == "" {
+			return errors.New(color.Red.Renderln("配置文件的路径和内容必须至少提供一个，路径参数优先级高") + "\r\n")
 		}
 
 		return nil
@@ -37,18 +38,21 @@ var Conf = &cobra.Command{
 
 		name, _ := cmd.Flags().GetString("name")
 		file, _ := cmd.Flags().GetString("file")
+		content, _ := cmd.Flags().GetString("content")
 
 		path := "/www/server/panel/vhost/nginx/" + name + ".conf"
 
-		data, err := ioutil.ReadFile(file)
-		if err != nil {
+		fileContent, err := ioutil.ReadFile(file)
+		if content == "" && file != "" && err != nil {
 			color.Red.Println("读取配置文件失败")
 			return
+		} else {
+			content = string(fileContent)
 		}
 
 		result := utils.Post(link, utils.PatchSign(key, url.Values{
 			"path":     {path},
-			"data":     {string(data)},
+			"data":     {content},
 			"encoding": {"utf-8"},
 		}))
 		color.Infoln(result)
@@ -58,6 +62,6 @@ var Conf = &cobra.Command{
 func init() {
 	Conf.Flags().StringP("name", "n", "", "网站名称")
 	Conf.Flags().StringP("file", "f", "", "配置文件路径")
-	Conf.MarkFlagRequired("file")
+	Conf.Flags().StringP("content", "c", "", "配置文件内容")
 	Conf.MarkFlagRequired("name")
 }
