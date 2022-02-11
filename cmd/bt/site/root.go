@@ -17,4 +17,5 @@ func init() {
 	SiteCmd.AddCommand(php)
 	SiteCmd.AddCommand(delete)
 	SiteCmd.AddCommand(Create)
+	SiteCmd.AddCommand(Conf)
 }
