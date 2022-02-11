@@ -17,7 +17,6 @@ var BtCmd = &cobra.Command{
 		key, _ := cmd.Flags().GetString("key")
 
 		color.Infoln("地址：" + host)
-		color.Infoln("密钥：" + key + "\r\n")
 
 		if host == "" {
 			return errors.New(color.Error.Renderln("请输入宝塔地址") + "\r\n")
