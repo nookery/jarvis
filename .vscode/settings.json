@@ -1,3 +1,13 @@
 {
-  "cSpell.words": ["Errorln", "Infoln", "Renderln", "Warnln"]
+  "cSpell.words": [
+    "Errorln",
+    "fabiospampinato",
+    "gopath",
+    "goroot",
+    "Infoln",
+    "PTRACE",
+    "Renderln",
+    "seccomp",
+    "Warnln"
+  ]
 }

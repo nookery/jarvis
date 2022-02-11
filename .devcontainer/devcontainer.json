@@ -10,6 +10,10 @@
 		"--security-opt",
 		"seccomp=unconfined"
 	],
+	"mounts": [
+		// 共享宿主机的.ssh文件夹
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/root/.ssh,type=bind,consistency=cached"
+	],
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
 		"go.toolsManagement.checkForUpdates": "local",
