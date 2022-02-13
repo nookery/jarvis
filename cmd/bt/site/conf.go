@@ -2,7 +2,6 @@ package site
 
 import (
 	"errors"
-	"io/ioutil"
 	"jarvis/cmd/bt/utils"
 	"net/url"
 
@@ -15,18 +14,16 @@ var Conf = &cobra.Command{
 	Short: color.Blue.Render("保存网站配置"),
 	PreRunE: func(cmd *cobra.Command, args []string) error {
 		name, _ := cmd.Flags().GetString("name")
-		file, _ := cmd.Flags().GetString("file")
 		content, _ := cmd.Flags().GetString("content")
 
 		color.Infoln("名称：" + name + "\r\n")
-		color.Infoln("文件：" + file + "\r\n")
 
 		if name == "" {
 			return errors.New(color.Red.Renderln("请输入网站名称") + "\r\n")
 		}
 
-		if file == "" && content == "" {
-			return errors.New(color.Red.Renderln("配置文件的路径和内容必须至少提供一个，路径参数优先级高") + "\r\n")
+		if content == "" {
+			return errors.New(color.Red.Renderln("请提供配置文件的内容") + "\r\n")
 		}
 
 		return nil
@@ -37,18 +34,9 @@ var Conf = &cobra.Command{
 		link := host + "/files?action=SaveFileBody"
 
 		name, _ := cmd.Flags().GetString("name")
-		file, _ := cmd.Flags().GetString("file")
 		content, _ := cmd.Flags().GetString("content")
 
 		path := "/www/server/panel/vhost/nginx/" + name + ".conf"
-
-		fileContent, err := ioutil.ReadFile(file)
-		if content == "" && file != "" && err != nil {
-			color.Red.Println("读取配置文件失败")
-			return
-		} else {
-			content = string(fileContent)
-		}
 
 		result := utils.Post(link, utils.PatchSign(key, url.Values{
 			"path":     {path},
@@ -60,8 +48,8 @@ var Conf = &cobra.Command{
 }
 
 func init() {
-	Conf.Flags().StringP("name", "n", "", "网站名称")
-	Conf.Flags().StringP("file", "f", "", "配置文件路径")
-	Conf.Flags().StringP("content", "c", "", "配置文件内容")
+	Conf.Flags().StringP("name", "n", "", color.Blue.Render("网站名称"))
+	Conf.Flags().StringP("content", "c", "", color.Blue.Render("配置文件内容，内容较多时可以这样写：-c=\"$(cat sample.conf)\""))
 	Conf.MarkFlagRequired("name")
+	Conf.MarkFlagRequired("content")
 }
