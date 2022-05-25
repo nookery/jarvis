@@ -1,5 +1,7 @@
 # jarvis
 
+## 简介
+
 ```
 [root@www]# ./bin/jarvis 
 
@@ -25,3 +27,9 @@ Flags:
 3. 提交代码后自动为项目创建数据库
 
 以及正在开发中的更多功能。
+
+## 构建
+
+```
+go build main.go
+```
