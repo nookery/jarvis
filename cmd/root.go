@@ -29,6 +29,9 @@ func init() {
 	rootCmd.AddCommand(jokeCmd)
 	rootCmd.AddCommand(bt.BtCmd)
 
+	// 关闭completion命令
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
+
 	// 自定义Usage提示，关键字染色
 	usageTemplate := rootCmd.UsageTemplate()
 	usageTemplate = strings.Replace(usageTemplate, "Usage:", color.Yellow.Render("Usage:"), 1)
