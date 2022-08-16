@@ -32,6 +32,12 @@ func init() {
 	// 关闭completion命令
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
 
+	// 关闭帮助命令
+	rootCmd.SetHelpCommand(&cobra.Command{
+		Use:    "no-help",
+		Hidden: true,
+	})
+
 	// 自定义Usage提示，关键字染色
 	usageTemplate := rootCmd.UsageTemplate()
 	usageTemplate = strings.Replace(usageTemplate, "Usage:", color.Yellow.Render("Usage:"), 1)
@@ -45,4 +51,6 @@ func init() {
 	// helpTemplate := rootCmd.HelpTemplate()
 	// helpTemplate = strings.Replace(usageTemplate, "Usage", color.Yellow.Render("Usage"), 1)
 	// rootCmd.SetHelpTemplate(helpTemplate)
+
+	rootCmd.PersistentFlags().BoolP("help", "h", false, color.Blue.Render("输出帮助信息"))
 }

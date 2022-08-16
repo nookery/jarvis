@@ -37,6 +37,6 @@ func init() {
 	BtCmd.AddCommand(crontab.CrontabCmd)
 	BtCmd.AddCommand(site.SiteCmd)
 	BtCmd.AddCommand(database.DatabaseCmd)
-	BtCmd.PersistentFlags().String("host", "http://127.0.0.1:8888", color.Blue.Render("宝塔地址"))
+	BtCmd.PersistentFlags().StringP("host", "s", "http://127.0.0.1:8888", color.Blue.Render("宝塔地址"))
 	BtCmd.PersistentFlags().StringP("key", "k", "", color.Blue.Render("宝塔密钥"))
 }

@@ -10,7 +10,7 @@ import (
 
 var Http = &cobra.Command{
 	Use:   "http",
-	Short: "发送HTTP请求",
+	Short: color.Blue.Render("发送HTTP请求"),
 	Run: func(cmd *cobra.Command, args []string) {
 		host, _ := cmd.Flags().GetString("host")
 		key, _ := cmd.Flags().GetString("key")
