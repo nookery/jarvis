@@ -3,7 +3,7 @@
   <h1 align="center">Jarvis</h1>
 
   <p align="center">
-    配合 <a href="https://bt.cn" target="_blank"><strong>宝塔</strong></a> 使用的命令行助理软件
+    命令行助理软件
     <br />
   </p>
 </div>
