@@ -8,8 +8,6 @@
   </p>
 </div>
 
-## 简介  
-
-[![Product Name Screen Shot][product-screenshot]][product-screenshot]
+## 介绍
 
 Moved to <https://github.com/nookery/Servon>
