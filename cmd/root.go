@@ -1,13 +1,16 @@
 package cmd
 
 import (
-	"jarvis/cmd/bt"
-	"jarvis/cmd/database"
 	"os"
 	"strings"
 
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
+
+	"jarvis/cmd/bt"
+	"jarvis/cmd/database"
+	"jarvis/cmd/system"
+	"jarvis/cmd/xcode"
 )
 
 var rootCmd = &cobra.Command{
@@ -28,6 +31,8 @@ func init() {
 	rootCmd.AddCommand(pingCmd)
 	rootCmd.AddCommand(jokeCmd)
 	rootCmd.AddCommand(bt.BtCmd)
+	rootCmd.AddCommand(xcode.XcodeCmd)
+	rootCmd.AddCommand(system.SystemCmd)
 
 	// 关闭completion命令
 	rootCmd.CompletionOptions.DisableDefaultCmd = true
